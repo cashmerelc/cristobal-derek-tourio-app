@@ -27,13 +27,11 @@ export default function Comments({ locationName, comments }) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const commentData = Object.fromEntries(formData);
-    console.log("Comment Data", commentData);
     const response = await fetch(`/api/places/${id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(commentData),
     });
-    console.log("Response: ", response);
 
     if (response.ok) {
       await response.json();

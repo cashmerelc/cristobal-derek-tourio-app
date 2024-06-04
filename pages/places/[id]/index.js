@@ -45,7 +45,6 @@ export default function DetailsPage() {
     await fetch(`/api/places/${id}`, { method: "DELETE" });
     router.push("/");
   }
-  console.log("Place: ", place);
   return (
     <>
       <Link href={"/"} passHref legacyBehavior>
