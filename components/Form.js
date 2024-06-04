@@ -31,6 +31,7 @@ export default function Form({ onSubmit, formName, defaultData }) {
     const data = Object.fromEntries(formData);
     onSubmit(data);
   }
+  console.log("Default Data: ", defaultData);
 
   return (
     <FormContainer aria-labelledby={formName} onSubmit={handleSubmit}>

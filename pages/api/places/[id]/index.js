@@ -20,6 +20,11 @@ export default async function handler(request, response) {
 
     response.status(200).json({ place: place });
   }
+  if (request.method === "PATCH") {
+    await Place.findByIdAndUpdate(id, request.body);
+
+    response.status(200).json({ status: `Place ${id} updated!` });
+  }
 }
 
 // const place = Place.find((place) => place._id.$oid === id);
