@@ -12,4 +12,14 @@ export default async function handler(request, response) {
     }
     return response.status(200).json(places);
   }
+  if (request.method === "POST") {
+    try {
+      const placeData = request.body;
+      await Place.create(placeData);
+      response.status(200).json({ status: "Place created!" });
+    } catch (err) {
+      console.log("POST Error: ", err);
+      response.status(400).json({ error: err.message });
+    }
+  }
 }
