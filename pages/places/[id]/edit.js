@@ -24,6 +24,7 @@ export default function EditPage() {
       return;
     }
     mutate();
+    router.push("/");
   }
 
   if (!isReady || isLoading || error) return <h2>Loading...</h2>;
