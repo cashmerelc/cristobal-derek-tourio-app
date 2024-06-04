@@ -1,8 +1,14 @@
 import styled from "styled-components";
 import { FormContainer, Input, Label } from "./Form";
 import { StyledButton } from "./StyledButton.js";
+import useSWR from "swr";
+import { useRouter } from "next/router";
 
 export default function Comments({ locationName, comments }) {
+  const router = useRouter();
+  const { id } = router.query;
+  const { data, mutate } = useSWR(`/api/places/${id}`);
+
   const Article = styled.article`
     display: flex;
     flex-direction: column;
@@ -17,8 +23,23 @@ export default function Comments({ locationName, comments }) {
     }
   `;
 
-  function handleSubmitComment(e) {
-    e.preventDefault();
+  async function handleSubmitComment(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const commentData = Object.fromEntries(formData);
+    console.log("Comment Data", commentData);
+    const response = await fetch(`/api/places/${id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(commentData),
+    });
+    console.log("Response: ", response);
+
+    if (response.ok) {
+      await response.json();
+      mutate();
+      event.target.reset();
+    }
   }
 
   return (

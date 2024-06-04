@@ -11,22 +11,45 @@ export default async function handler(request, response) {
     return;
   }
 
-  if (request.method === "GET") {
-    const place = await Place.findById(id);
-    console.log(place);
-    if (!place) {
-      return response.status(404).json({ status: "Not found" });
+  try {
+    if (request.method === "GET") {
+      const place = await Place.findById(id).populate("comments");
+      if (!place) {
+        return response.status(404).json({ status: "Not found" });
+      }
+
+      response.status(200).json({ place: place });
     }
+    if (request.method === "PATCH") {
+      console.log("Update place comment request body: ", request.body);
+      await Place.findByIdAndUpdate(id, request.body);
 
-    response.status(200).json({ place: place });
+      response.status(200).json({ status: `Place ${id} updated!` });
+    }
+    if (request.method === "DELETE") {
+      await Place.findByIdAndDelete(id);
+      response.status(200).json({ status: `Place ${id} deleted!` });
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    response
+      .status(500)
+      .json({ status: "Internal Server Error", message: err.message });
   }
-  if (request.method === "PATCH") {
-    await Place.findByIdAndUpdate(id, request.body);
+  if (request.method === "POST") {
+    try {
+      const commentData = request.body;
+      console.log("New Comment request body: ", commentData);
 
-    response.status(200).json({ status: `Place ${id} updated!` });
-  }
-  if (request.method === "DELETE") {
-    await Place.findByIdAndDelete(id);
-    response.status(200).json({ status: `Place ${id} deleted!` });
+      const createdComment = await Comment.create(commentData);
+      // console.log("Created Comment response: ", createdComment);
+      response.status(200).json({ status: "Comment created!" });
+      await Place.findByIdAndUpdate(id, {
+        $push: { comments: createdComment._id },
+      });
+    } catch (err) {
+      console.log("POST Error: ", err);
+      response.status(400).json({ error: err.message });
+    }
   }
 }
