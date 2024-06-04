@@ -22,8 +22,8 @@ export default function CreatePlacePage() {
 
     if (response.ok) {
       mutate();
+      router.push("/");
     }
-    router.push("/");
   }
 
   return (
