@@ -4,14 +4,6 @@ import Comment from "../../../db/models/Comment";
 export default async function handler(request, response) {
   await dbConnect();
 
-  if (request.method === "GET") {
-    const comments = await Comment.find();
-
-    if (!request) {
-      return response.status(404).json({ error: "Not Found" });
-    }
-    return response.status(200).json(comments);
-  }
   if (request.method === "POST") {
     try {
       const commentData = request.body;
