@@ -1,4 +1,4 @@
-import dbConnect from "../../../../db/dbConnect.js";
+import dbConnect from "../../../../db/dbconnect.js";
 import Place from "../../../../db/models/Place";
 import Comment from "../../../../db/models/Comment";
 
