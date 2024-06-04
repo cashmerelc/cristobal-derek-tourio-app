@@ -17,9 +17,14 @@ export default function Comments({ locationName, comments }) {
     }
   `;
 
-  function handleSubmitComment(e) {
-    e.preventDefault();
+  function handleSubmitComment(event) {
+    // event.preventDefault();
+    // const formData = new FormData(event.target);
+    // const data = Object.fromEntries(formData);
+    // onSubmit(data);
   }
+  console.log("Location Name: ", locationName);
+  console.log("Comments: ", comments);
 
   return (
     <Article>

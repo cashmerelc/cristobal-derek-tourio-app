@@ -45,7 +45,7 @@ export default function DetailsPage() {
     await fetch(`/api/places/${id}`, { method: "DELETE" });
     router.push("/");
   }
-
+  console.log("Place: ", place);
   return (
     <>
       <Link href={"/"} passHref legacyBehavior>
@@ -77,7 +77,7 @@ export default function DetailsPage() {
           Delete
         </StyledButton>
       </ButtonContainer>
-      <Comments locationName={place.name} comments={comments} />
+      <Comments locationName={place.name} comments={place.comments} />
     </>
   );
 }
